@@ -88,6 +88,9 @@
         "M-k" #'multi-previous-line)
 
       :leader "w" #'ace-window
-      :leader "|" #'ace-window
+      :leader "|" #'ubf|eshell-switch
+      :leader "rr" #'copy-to-register
+      :leader "rp" #'insert-register
+      :leader "mu" #'mu4e
 
       )
