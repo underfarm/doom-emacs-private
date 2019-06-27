@@ -93,4 +93,9 @@
       :leader "rp" #'insert-register
       :leader "mu" #'mu4e
 
+		  :leader "j1" #'(lambda () (interactive) (ubf|suround-word "'"))
+		  :leader "j2" #'(lambda () (interactive) (ubf|suround-word "\""))
+	    :leader 	 "j3" #'(lambda () (interactive) (ubf|suround-word "(" ")"))
+	    :leader 	 "j4" #'(lambda () (interactive) (ubf|suround-word "[" "]"))
+
       )
