@@ -13,13 +13,17 @@
 ;;; UI
 
 ;;; Fonts
-(setq doom-font (font-spec :family "Fira Code" :size 14)
-      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14))
+(setq doom-font (font-spec :family "Fira Code" :size 16)
+      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 16))
 
+;; How tall the mode-line should be. It's only respected in GUI.
+;; If the actual char height is larger, it respects the actual height.
+(setq doom-modeline-height 25)
 
 ;;
 ;;; Loads
-(add-to-list 'load-path "~/.doom.d/packages/mu4e")
+(add-to-list 'load-path (expand-file-name "lisp" doom-private-dir))
+(add-to-list 'load-path (expand-file-name "lisp/mu4e" doom-private-dir))
 
 ;;
 ;; Evil
@@ -32,10 +36,15 @@
   (setq evil-escape-key-sequence "fd"))
 
 ;;
+;;; Mail
 (after! mu4e
-  (setq +mu4e-backend 'offlineimap))
+  (setq +mu4e-backend 'offlineimap)
+  (setq mu4e-maildir "~/Maildir"
+        mu4e-drafts-folder "/Gmail/[Gmail].Drafts"
+        mu4e-sent-folder "/Gmail/[Gmail].Sent Mail"
+        mu4e-trash-folder "/Gmail/[Gmail].Trash"
+        mu4e-refile-folder "/[Gmail].All"))
 
-;;
 ;; Completion
 (def-package-hook! company-lsp
   :post-config
@@ -43,6 +52,15 @@
 	      company-lsp-filter-candidates nil
 	      company-lsp-cache-candidates 'auto))
 
+(after! org
+  (setq +org-babel-mode-alist
+        '((cpp . C)
+          (C++ . C)
+          (D . C)
+          (sh . shell)
+          (ps . powershell) ;; this one is home brewed.
+          (bash . shell)
+          (matlab . octave))))
 
 ;;
 ;;; Shell
@@ -67,19 +85,23 @@
       :m "M-k" #'multi-previous-line
 
       ;; Easier window movement
-      :n "C-h" #'evil-window-left
-      :n "C-j" #'evil-window-down
-      :n "C-k" #'evil-window-up
-      :n "C-l" #'evil-window-right
+      ;; :n "C-h" #'evil-window-left
+      ;; :n "C-j" #'evil-window-down
+      ;; :n "C-k" #'evil-window-up
+      ;; :n "C-l" #'evil-window-right
 
       :g "C-s" #'swiper
 
-      (:map vterm-mode-map
-        ;; Easier window movement
-        :i "C-h" #'evil-window-left
-        :i "C-j" #'evil-window-down
-        :i "C-k" #'evil-window-up
-        :i "C-l" #'evil-window-right)
+      ;; (:map vterm-mode-map
+      ;;   ;; Easier window movement
+      ;;   :i "C-h" #'evil-window-left
+      ;;   :i "C-j" #'evil-window-down
+      ;;   :i "C-k" #'evil-window-up
+      ;;   :i "C-l" #'evil-window-right)
+
+      (:map term-raw-map
+          "M-k" #'term-send-up
+          "M-j" #'term-send-down)
 
       (:map evil-treemacs-state-map
         "C-h" #'evil-window-left
@@ -89,13 +111,27 @@
 
       :leader "w" #'ace-window
       :leader "|" #'ubf|eshell-switch
-      :leader "rr" #'copy-to-register
-      :leader "rp" #'insert-register
-      :leader "mu" #'mu4e
+
+      :leader
+      (:prefix "c"
+        "a" #'counsel-ag)
+
+      :leader
+      (:prefix "r"
+              "r" #'copy-to-register
+              "p" #'insert-register
+              "b" #'revert-buffer)
+
+      :leader
+      (:prefix "m"
+              "u" #'mu4e)
+
+      (:prefix "f"
+        "t" #'find-in-dotfiles
+        "T" #'browse-dotfiles)
 
 		  :leader "j1" #'(lambda () (interactive) (ubf|suround-word "'"))
 		  :leader "j2" #'(lambda () (interactive) (ubf|suround-word "\""))
 	    :leader 	 "j3" #'(lambda () (interactive) (ubf|suround-word "(" ")"))
 	    :leader 	 "j4" #'(lambda () (interactive) (ubf|suround-word "[" "]"))
-
       )

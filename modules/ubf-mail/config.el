@@ -9,7 +9,7 @@
     (use-package evil-mu4e
       :after mu4e)
 
-    (use-package org-mime
+   (use-package org-mime
       :after mu4e)
 
     (setq mu4e-mu-binary "/usr/local/bin/mu"
