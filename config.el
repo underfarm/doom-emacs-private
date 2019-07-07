@@ -43,7 +43,21 @@
         mu4e-drafts-folder "/Gmail/[Gmail].Drafts"
         mu4e-sent-folder "/Gmail/[Gmail].Sent Mail"
         mu4e-trash-folder "/Gmail/[Gmail].Trash"
-        mu4e-refile-folder "/[Gmail].All"))
+        mu4e-refile-folder "/[Gmail].All")
+
+  ;; That sweet, sweet spell checking.
+  (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
+
+(require 'smtpmail)
+
+(setq message-send-mail-function 'smtpmail-send-it
+      starttls-use-gnutls t
+      smtpmail-starttls-credentials
+      '(("smtp.gmail.com" 587 nil nil))
+      smtpmail-default-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587
+      smtpmail-debug-info t))
 
 ;; Completion
 (def-package-hook! company-lsp
@@ -51,6 +65,28 @@
   (setq company-lsp-async t
 	      company-lsp-filter-candidates nil
 	      company-lsp-cache-candidates 'auto))
+
+(after! lsp-pwsh
+
+  (setq pwsh-output (generate-new-buffer "pwsh-output"))
+  ; this only works when 'output' is added to lsp-pwsh client notification handler.
+  (defun ubf-send-lsp-region (start end)
+    (interactive "r")
+    (if (use-region-p)
+        (let ((regionp (buffer-substring start end)))
+          (lsp-send-request-async
+           (lsp-make-request "evaluate"
+                             (list :expression regionp))
+           '(lambda (lspresulthash) "resutlhash")))))
+
+  (defun ubf-lsp-pwsh-output (output)
+    (with-current-buffer "pwsh-output"
+      (insert output)))
+
+)
+
+
+
 
 (after! org
   (setq +org-babel-mode-alist
