@@ -97,6 +97,18 @@
            '(lambda (nilresult)
               (message "Executed eval")))))
 
+(defun ubf-send-lsp-buffer ()
+  (interactive)
+  (let* ((begin (point-min))
+        (end (point-max))
+        (buffstring (with-current-buffer (current-buffer)
+                      (buffer-substring-no-properties begin end))))
+          (lsp-send-request-async
+           (lsp-make-request "evaluate"
+                             (list :expression buffstring))
+           '(lambda (nilresult)
+              (message "Executed eval")))))
+
 )
 
 (after! org
