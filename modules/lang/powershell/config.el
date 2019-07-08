@@ -8,9 +8,10 @@
                              (flycheck-mode 0)
                              (setq-local company-idle-delay 0.2)
 				                     (setq-local company-backends
-						                             '(company-dabbrev
-						                               company-files
+						                             '(
                                            company-lsp
+                                           company-dabbrev
+						                               company-files
 						                               company-keywords
 						                               company-yasnippet
 						                               company-capf)))))

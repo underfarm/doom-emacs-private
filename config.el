@@ -67,9 +67,10 @@
 	      company-lsp-cache-candidates 'auto))
 
 (after! lsp-pwsh
-
   (setq pwsh-output (generate-new-buffer "pwsh-output"))
   ; this only works when 'output' is added to lsp-pwsh client notification handler.
+  ;:notification-handlers (lsp-ht ("powerShell/executionStatusChanged" 'ignore)
+  ;;                              ("output" 'ubf-lsp-pwsh-output))
   (defun ubf-send-lsp-region (start end)
     (interactive "r")
     (if (use-region-p)
@@ -79,9 +80,22 @@
                              (list :expression regionp))
            '(lambda (lspresulthash) "resutlhash")))))
 
-  (defun ubf-lsp-pwsh-output (output)
+  (defun ubf-lsp-pwsh-output (_workspace params)
+    (setq out (gethash "output" params))
     (with-current-buffer "pwsh-output"
-      (insert output)))
+      (insert out)))
+
+(defun ubf-send-lsp-line ()
+  (interactive)
+  (let* ((begin (line-beginning-position))
+        (end (line-end-position))
+        (buffstring (with-current-buffer (current-buffer)
+                      (buffer-substring-no-properties begin end))))
+          (lsp-send-request-async
+           (lsp-make-request "evaluate"
+                             (list :expression buffstring))
+           '(lambda (nilresult)
+              (message "Executed eval")))))
 
 )
 
