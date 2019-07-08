@@ -85,9 +85,6 @@
 
 )
 
-
-
-
 (after! org
   (setq +org-babel-mode-alist
         '((cpp . C)
@@ -97,6 +94,11 @@
           (ps . powershell) ;; this one is home brewed.
           (bash . shell)
           (matlab . octave))))
+
+(after! ace-window
+(custom-set-faces
+ '(aw-leading-char-face
+   ((t (:inherit ace-jump-face-foreground :height 3.0))))))
 
 ;;
 ;;; Shell
