@@ -148,20 +148,10 @@
 (map! :m "M-j" #'multi-next-line
       :m "M-k" #'multi-previous-line
 
-      ;; Easier window movement
-      ;; :n "C-h" #'evil-window-left
-      ;; :n "C-j" #'evil-window-down
-      ;; :n "C-k" #'evil-window-up
-      ;; :n "C-l" #'evil-window-right
-
       :g "C-s" #'swiper
 
-      ;; (:map vterm-mode-map
-      ;;   ;; Easier window movement
-      ;;   :i "C-h" #'evil-window-left
-      ;;   :i "C-j" #'evil-window-down
-      ;;   :i "C-k" #'evil-window-up
-      ;;   :i "C-l" #'evil-window-right)
+      (:map org-mode-map
+        "M-RET" #'org-meta-return)
 
       (:map term-raw-map
           "M-k" #'term-send-up
