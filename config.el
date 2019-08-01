@@ -12,6 +12,7 @@
 ;;
 ;;; UI
 
+
 ;;; Fonts
 (setq doom-font (font-spec :family "Fira Code" :size 16)
       doom-variable-pitch-font (font-spec :family "Noto Sans" :size 16))
@@ -116,46 +117,27 @@
         '((cpp . C)
           (C++ . C)
           (D . C)
+          (R . R)
           (sh . shell)
           (ps . powershell) ;; this one is home brewed.
-          (bash . shell)
-          (matlab . octave))))
+          (bash . shell))))
+
+(add-hook! org-mode
+  (visual-line-mode))
 
 (after! ace-window
 (custom-set-faces
  '(aw-leading-char-face
    ((t (:inherit ace-jump-face-foreground :height 3.0))))))
 
-;;
-;;; Shell
-;; (after! eshell
-;; (setq eshell-prompt-function
-;;       (lambda ()
-;;   	(concat
-;;   	 (propertize "┌─[" 'face					`(:foreground "#ffaf00"))
-;;   	 (propertize (user-login-name) 'face				`(:foreground "#870000"))
-;;   	 (propertize "@" 'face						`(:foreground "#ffaf00"))
-;;   	 (propertize (system-name) 'face				`(:foreground "#870000"))
-;;   	 (propertize "]──[" 'face					`(:foreground "#ffaf00"))
-;;   	 (propertize (format-time-string "%H:%M" (current-time)) 'face	`(:foreground "yellow"))
-;;   	 (propertize "]──[" 'face					`(:foreground "#ffaf00"))
-;;   	 (propertize (concat (eshell/pwd)) 'face			`(:foreground "#a8a8a8"))
-;;   	 (propertize "]\n" 'face					`(:foreground "#ffaf00"))
-;;   	 (propertize "└─>" 'face					`(:foreground "#ffaf00"))
-;;   	 (propertize (if (= (user-uid) 0) " # " " $ ") 'face		`(:foreground "#ffaf00"))
-;;   	 ))))
-
 (map! :m "M-j" #'multi-next-line
       :m "M-k" #'multi-previous-line
 
       :g "C-s" #'swiper
 
-      (:map org-mode-map
-        "M-RET" #'org-meta-return)
-
       (:map term-raw-map
-          "M-k" #'term-send-up
-          "M-j" #'term-send-down)
+        "M-k" #'term-send-up
+        "M-j" #'term-send-down)
 
       (:map evil-treemacs-state-map
         "C-h" #'evil-window-left
@@ -172,13 +154,13 @@
 
       :leader
       (:prefix "r"
-              "r" #'copy-to-register
-              "p" #'insert-register
-              "b" #'revert-buffer)
+        "r" #'copy-to-register
+        "p" #'insert-register
+        "b" #'revert-buffer)
 
       :leader
       (:prefix "m"
-              "u" #'mu4e)
+        "u" #'mu4e)
 
       (:prefix "f"
         "t" #'find-in-dotfiles
