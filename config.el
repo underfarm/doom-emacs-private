@@ -150,9 +150,7 @@
 
       :leader
       (:prefix "c"
-        "a" #'counsel-ag)
-
-      :leader
+        "a" #'counsel-ag) :leader
       (:prefix "r"
         "r" #'copy-to-register
         "p" #'insert-register
