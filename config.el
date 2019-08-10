@@ -125,6 +125,28 @@
 (add-hook! org-mode
   (visual-line-mode))
 
+(after! org-download
+  (setq org-download-screenshot-method "flameshot gui -p /tmp/img/")
+
+  (defun aj-fetch-latest (path)
+    (let ((e (f-entries path)))
+      (car (sort e (lambda (a b)
+                     (not (time-less-p (aj-mtime a)
+                                       (aj-mtime b))))))))
+
+  (defun aj-mtime (f) (let ((attrs (file-attributes f))) (nth 5 attrs)))
+
+  (defun ubf|org-download-screenshot (old-function &rest arguments)
+    (interactive)
+    (let ((default-directory "~"))
+      (make-directory "/tmp/img/" t)
+      (call-process "flameshot" nil t nil "gui" "-p" "/tmp/img")
+      (sleep-for 0.5)
+      (org-download-image (aj-fetch-latest "/tmp/img"))))
+
+  (advice-add #'org-download-screenshot :around #'ubf|org-download-screenshot))
+
+
 (after! ace-window
 (custom-set-faces
  '(aw-leading-char-face
