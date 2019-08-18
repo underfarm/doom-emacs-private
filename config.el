@@ -144,7 +144,21 @@
       (sleep-for 0.5)
       (org-download-image (aj-fetch-latest "/tmp/img"))))
 
-  (advice-add #'org-download-screenshot :around #'ubf|org-download-screenshot))
+  (advice-add #'org-download-screenshot :around #'ubf|org-download-screenshot)
+
+  (defun ubf|org-download-screenshot-2 ()
+    (interactive)
+    (let ((default-directory "~"))
+      (make-directory "/tmp/img/" t)
+      (call-process "flameshot" nil t nil "gui" "-p" "/tmp/img")
+      (sleep-for 0.5)
+      (setq ubf|screenshot-image (aj-fetch-latest "/tmp/img"))
+      (setq ubf|screenshot-image-description (read-string "Description:"))
+      (f-move ubf|screenshot-image (format "~/repos/devlab/static/images/%s.png" ubf|screenshot-image-description))
+      (insert (format "[[/images/%s.png]]" ubf|screenshot-image-description ubf|screenshot-image-description))
+      ))
+
+  )
 
 
 (after! ace-window
