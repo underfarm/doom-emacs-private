@@ -59,3 +59,19 @@ Prompt for the archive file name."
       (insert "\n")
       (insert (format "Archive: %s, pwd: %s" out-file password)))
     (shell-command (format "7z.exe a %s -p%s %s" out-file password files-to-string))))
+
+
+(setq ubf-workday-folder "~/org/work/")
+
+(setq ubf-workday-template "")
+
+(defun ubf|create-folder-if-not-exist (path)
+  (if (not (f-exists? path))
+      (make-directory path)))
+
+(defun ubf|start-or-get-workday ()
+  (interactive)
+  (let* ((filename (format-time-string "%F-work.org"))
+         (path (concat ubf-workday-folder filename)))
+    (ubf|create-folder-if-not-exist ubf-workday-folder)
+    (find-file path)))
