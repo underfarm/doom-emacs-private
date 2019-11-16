@@ -120,7 +120,10 @@
           (R . R)
           (sh . shell)
           (ps . powershell) ;; this one is home brewed.
-          (bash . shell))))
+          (bash . shell)))
+
+
+  )
 
 (add-hook! org-mode
   (visual-line-mode))
@@ -200,8 +203,8 @@
         "t" #'find-in-dotfiles
         "T" #'browse-dotfiles)
 
-		  :leader "j1" #'(lambda () (interactive) (ubf|suround-word "'"))
-		  :leader "j2" #'(lambda () (interactive) (ubf|suround-word "\""))
-	    :leader 	 "j3" #'(lambda () (interactive) (ubf|suround-word "(" ")"))
-	    :leader 	 "j4" #'(lambda () (interactive) (ubf|suround-word "[" "]"))
+	  :leader "j1" #'(lambda () (interactive) (ubf|suround-word "'"))
+	  :leader "j2" #'(lambda () (interactive) (ubf|suround-word "\""))
+	  :leader 	 "j3" #'(lambda () (interactive) (ubf|suround-word "(" ")"))
+	  :leader 	 "j4" #'(lambda () (interactive) (ubf|suround-word "[" "]"))
       )
