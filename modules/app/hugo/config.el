@@ -1,4 +1,4 @@
 ;;; lang/powershell/config.el
 
-(def-package! ox-hugo
+(use-package! ox-hugo
   :after ox)

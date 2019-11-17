@@ -1,6 +1,6 @@
 ;;; lang/powershell/config.el
 
-(def-package! lsp-pwsh
+(use-package! lsp-pwsh
   :defer t
   :hook (powershell-mode . (lambda () (require 'lsp-pwsh)
                              (lsp)

@@ -1,6 +1,11 @@
 ;;; ~/.doom.d/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here
+ (if (eq system-type 'windows-nt)
+     ;; Shims from 'scoop
+     (setq ubf-scoop-dir (concat "C:/Users/" user-login-name "/scoop/"))
+     (add-to-list 'exec-path ubf-scoop-dir)
+)
 
 (setq user-full-name "Ulrik Bruun Farmen"
       user-mail-address "ulrik.bruun.farmen@gmail.net"
@@ -28,7 +33,7 @@
 
 ;;
 ;; Evil
-(def-package-hook! evil
+(use-package-hook! evil
   :pre-init
   (setq evil-want-Y-yank-to-eol t)
   t)
@@ -61,7 +66,7 @@
       smtpmail-debug-info t))
 
 ;; Completion
-(def-package-hook! company-lsp
+(use-package-hook! company-lsp
   :post-config
   (setq company-lsp-async t
 	      company-lsp-filter-candidates nil
