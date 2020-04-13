@@ -3,4 +3,4 @@
 
 
 (package! powershell)
-(package! lsp-pwsh :recipe (:host github :repo "kiennq/lsp-powershell"))
+;;(package! lsp-pwsh :recipe (:host github :repo "kiennq/lsp-powershell"))

@@ -1,11 +1,11 @@
 ;;; ~/.doom.d/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here
- (if (eq system-type 'windows-nt)
+; (if (eq system-type 'windows-nt)
      ;; Shims from 'scoop
-     (setq ubf-scoop-dir (concat "C:/Users/" user-login-name "/scoop/"))
-     (add-to-list 'exec-path ubf-scoop-dir)
-)
+;     (setq ubf-scoop-dir (concat "C:/Users/" user-login-name "/scoop/"))
+;     (add-to-list 'exec-path ubf-scoop-dir)
+;)
 
 (setq user-full-name "Ulrik Bruun Farmen"
       user-mail-address "ulrik.bruun.farmen@gmail.net"
@@ -31,6 +31,13 @@
 (add-to-list 'load-path (expand-file-name "lisp" doom-private-dir))
 (add-to-list 'load-path (expand-file-name "lisp/mu4e" doom-private-dir))
 
+
+;; IRC
+(after! circe
+  (setq rcirc-authinfo '(("localhost" "Ulrik" bitlbee "Glenn123#")))
+
+  )
+
 ;;
 ;; Evil
 (use-package-hook! evil
@@ -44,15 +51,23 @@
 ;;
 ;;; Mail
 (after! mu4e
-  (setq +mu4e-backend 'offlineimap)
-  (setq mu4e-maildir "~/Maildir"
-        mu4e-drafts-folder "/Gmail/[Gmail].Drafts"
-        mu4e-sent-folder "/Gmail/[Gmail].Sent Mail"
-        mu4e-trash-folder "/Gmail/[Gmail].Trash"
-        mu4e-refile-folder "/[Gmail].All")
+  ;; (setq +mu4e-backend 'offlineimap)
+  (setq mu4e-maildir "/home/ulrikf/home/ulrikf/snap/.mail")
+  ;;       mu4e-drafts-folder "/Gmail/[Gmail].Drafts"
+  ;;       mu4e-sent-folder "/Gmail/[Gmail].Sent Mail"
+  ;;       mu4e-trash-folder "/Gmail/[Gmail].Trash"
+  ;;       mu4e-refile-folder "/[Gmail].All")
 
   ;; That sweet, sweet spell checking.
   (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
+
+(setq mu4e-view-use-gnus t)
+
+;; enable inline images
+(setq mu4e-view-show-images t)
+;; use imagemagick, if available
+(when (fboundp 'imagemagick-register-types)
+  (imagemagick-register-types))
 
 (require 'smtpmail)
 
@@ -114,7 +129,6 @@
                              (list :expression buffstring))
            '(lambda (nilresult)
               (message "Executed eval")))))
-
 )
 
 (after! org
