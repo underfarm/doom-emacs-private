@@ -21,18 +21,12 @@
        (ivy +childframe +icons)
 
        :ui
-       deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
        doom-quit         ; DOOM quit-message prompts when you quit Emacs
        hl-todo           ; highlight TODO/FIXME/NOTE tags
-       ;;indent-guides     ; highlighted indent columns
        modeline          ; snazzy, Atom-inspired modeline, plus API nav-flash         ; blink the current line after jumping
-       ;;neotree           ; a project drawer, like NERDTree for vim
-       ophints           ; highlight the region an operation acts on
-       (popup +defaults)   ; tame sudden yet inevitable temporary windows
-       pretty-code       ; replace bits of code with pretty symbols
-       ;;tabbar            ; FIXME an (incomplete) tab bar for Emacs
+       nav-flash
        unicode
        treemacs          ; a project drawer, like neotree but cooler ;;unicode           ; extended unicode support for various languages
        ophints           ; highlight the region an operation acts on
@@ -61,33 +55,21 @@
        (dired            ; making dired pretty [functional]
         +icons          ; colorful icons for dired-mode
         )
+       undo
        electric          ; smarter, keyword-based electric-indent
        vc                ; version-control and Emacs, sitting in a tree
+
        :term
-       ;;@shell
-       eshell            ; a consistent, cross-platform shell (WIP)
-       term              ; terminals in Emacs
-       ;;vterm             ; another terminals in Emacs
-       ;;
+       eshell
+       shell
+       term
 
-
-       :checkers
-       syntax              ; tasing you for every semicolon you forget
-       spell             ; tasing you for misspelling mispelling
-       grammar           ; tasing grammar mistake every you make
-
-       :tools
-       ;;ansible
-       ;;debugger          ; FIXME stepping through code, to help you add bugs
-       ;;direnv
-       ;;docker
-       ;;editorconfig      ; let someone else argue about tabs vs spaces
-       ;;ein               ; tame Jupyter notebooks with emacs
 
        :checkers
        syntax              ; tasing you for every semicolon you forget
        (spell +everywhere)             ; tasing you for misspelling mispelling
        grammar           ; tasing grammar mistake every you make
+
 
        :tools
        (eval +overlay)     ; run code, run (also, repls)
@@ -99,73 +81,27 @@
        :lang
        powershell
        ;;ob-powershell
-       ;;agda              ; types of types of types of types...
-       ;;assembly          ; assembly for fun or debugging
-       ;;cc                ; C/C++/Obj-C madness
-       ;;clojure           ; java with a lisp
-       ;;common-lisp       ; if you've seen one lisp, you've seen them all
-       ;;coq               ; proofs-as-programs
-       ;;crystal           ; ruby at the speed of c
-       ;;csharp            ; unity, .NET, and mono shenanigans
        data              ; config/data formats
-       ;;erlang            ; an elegant language for a more civilized age
        elixir            ; erlang done right
-       ;;elm               ; care for a cup of TEA?
        emacs-lisp        ; drown in parentheses
-       ;;ess               ; emacs speaks statistics
-       ;;fsharp           ; ML stands for Microsoft's Language
-       ;;go                ; the hipster dialect
-       ;;(haskell +intero) ; a language that's lazier than I am
-       ;;hy                ; readability of scheme w/ speed of python
-       ;;idris             ;
-       ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
-       (javascript
-       +lsp); all(hope(abandon(ye(who(enter(here))))))
-       ;;julia             ; a better, faster MATLAB
-       ;;kotlin            ; a better, slicker Java(Script)
-       ;;latex             ; writing papers in Emacs has never been so fun
-       ;;ledger            ; an accounting system in Emacs
-       ;;lua               ; one-based indices? one-based indices
        ;; markdown          ; writing docs for people to ignore
-       ;;nim               ; python + lisp at the speed of c
        nix               ; I hereby declare "nix geht mehr!"
-       ;;ocaml             ; an objective camel
-       ;;
-       data              ; config/data formats
-       elixir            ; erlang done right
-       emacs-lisp        ; drown in parentheses
        (javascript +lsp)        ; all(hope(abandon(ye(who(enter(here))))))
        (org              ; organize your plain life in plain text
         +dragndrop
         +gnuplot
+        +journal
         +dragndrop       ; file drag & drop support
-        +pandoc          ; pandoc integration into org's exporter
-        +present)        ; using Emacs for presentations
-       ;;perl              ; write code no one else can comprehend
-       ;;php               ; perl's insecure younger brother
-       ;;plantuml          ; diagrams for confusing people more
-       ;;purescript        ; javascript, but functional
-       python            ; beautiful is better than ugly
-       ;;qt                ; the 'cutest' gui framework ever
-       ;;racket            ; a DSL for DSLs
-        +present
-        +roam)        ; using Emacs for presentations
-       rest              ; Emacs as a REST client
-       sh                ; she sells {ba,z,fi}sh shells on the C xor
-       ;;solidity          ; do you need a blockchain? No.
-       ;;swift             ; who asked for emoji variables?
-       ;;terra             ; Earth and Moon in alignment for performance.
-       web               ; the tubes
-       ;;vala              ; GObjective-C
+        +pandoc)          ; pandoc integration into org's exporter
+       sh
+       web
+       yaml
+       rest
 
        :email
        ;(mu4e +gmail)       ; WIP
        ;notmuch             ; WIP
-       ;;(wanderlust +gmail) ; WIP
-       web               ; the tubes
-
-       :email
-       ;(mu4e +gmail)       ; WIP
+       ;(wanderlust +gmail) ; WIP
 
        :app
        ;;calendar
@@ -179,13 +115,6 @@
 
        :config
        (default +bindings +smartparens))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(smtpmail-smtp-server "smtp.gmail.com")
- '(smtpmail-smtp-service 25))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

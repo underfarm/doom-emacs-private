@@ -31,7 +31,7 @@
   (set-company-backend! 'emacs-lisp-mode
     'company-files))
 
-; company-backends
+                                        ; company-backends
 
 
 ;; IRC
@@ -46,21 +46,12 @@
   (setq evil-want-Y-yank-to-eol t)
   t)
 
-(use-package! org-journal
-  :custom
-  (org-journal-dir "/mnt/c/Users/ulrik/Dropbox/Org/Journal/")
-  (org-journal-date-format "%A, %d %B %Y"))
+;;; :lang org
+(setq org-journal-dir "/mnt/c/Users/ulrik/Dropbox/Org/Journal/"
+      org-journal-date-format "%A, %d %B %Y")
 
 (after! evil-escape
   (setq evil-escape-key-sequence "fd"))
-
-
-;;; Mail
-;;
-  ;; use imagemagick, if available
-  (when (fboundp 'imagemagick-register-types)
-    (imagemagick-register-types))
-
 
 ;; Completion
 (use-package-hook! company-lsp
@@ -176,33 +167,32 @@
       :g "C-s" #'swiper
 
       (:map term-raw-map
-        "M-k" #'term-send-up
-        "M-j" #'term-send-down)
+       "M-k" #'term-send-up
+       "M-j" #'term-send-down)
 
       (:map evil-treemacs-state-map
-        "C-h" #'evil-window-left
-        "C-l" #'evil-window-right
-        "M-j" #'multi-next-line
-        "M-k" #'multi-previous-line)
+       "C-h" #'evil-window-left
+       "C-l" #'evil-window-right
+       "M-j" #'multi-next-line
+       "M-k" #'multi-previous-line)
 
       :leader "w" #'ace-window
       :leader "|" #'ubf|eshell-switch
 
       :leader
       (:prefix "c"
-        "a" #'counsel-ag) :leader
+       "a" #'counsel-ag) :leader
       (:prefix "r"
-        "r" #'copy-to-register
-        "p" #'insert-register
-        "b" #'revert-buffer)
+       "r" #'copy-to-register
+       "p" #'insert-register
+       "b" #'revert-buffer)
 
       :leader
       (:prefix "m"
-        "u" #'mu4e)
-
+       "u" #'mu4e)
       (:prefix "f"
-        "t" #'find-in-dotfiles
-        "T" #'browse-dotfiles)
+       "t" #'find-in-dotfiles
+       "T" #'browse-dotfiles)
 
 	    :leader "j1" #'(lambda () (interactive) (ubf|suround-word "'"))
 	    :leader "j2" #'(lambda () (interactive) (ubf|suround-word "\""))
