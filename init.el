@@ -82,7 +82,6 @@
        emacs-lisp        ; drown in parentheses
        (javascript +lsp)        ; all(hope(abandon(ye(who(enter(here))))))
        (org              ; organize your plain life in plain text
-        +hugo
         +dragndrop
         +gnuplot
         +dragndrop       ; file drag & drop support
@@ -94,7 +93,7 @@
        web               ; the tubes
 
        :email
-       (mu4e +gmail)       ; WIP
+       ;(mu4e +gmail)       ; WIP
 
        :app
        irc
