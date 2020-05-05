@@ -1,11 +1,6 @@
 ;;; ~/.doom.d/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here
-;; (if (eq system-type 'windows-nt)
- ;;    ;; Shims from 'scoop
-;;     (setq ubf-scoop-dir (concat "C:/Users/" user-login-name "/scoop/"))
-;;     (add-to-list 'exec-path ubf-scoop-dir)
-;; )
 
 (setq user-full-name "Ulrik Bruun Farmen"
       user-mail-address "ulrik.bruun.farmen@gmail.net"
@@ -15,7 +10,8 @@
       lsp-ui-sideline-enable nil)
 
 ;;
-;;; UI
+;; Blogging
+(setq easy-hugo-basedir "~/Dropbox/hugo")
 
 
 ;;; Fonts
@@ -30,6 +26,18 @@
 ;;; Loads
 (add-to-list 'load-path (expand-file-name "lisp" doom-private-dir))
 (add-to-list 'load-path (expand-file-name "lisp/mu4e" doom-private-dir))
+
+(after! company
+  (set-company-backend! 'emacs-lisp-mode
+    'company-files))
+
+; company-backends
+
+
+;; IRC
+(after! circe
+  (setq rcirc-authinfo '(("localhost" "Ulrik" bitlbee "Glenn123#")))
+  )
 
 ;;
 ;; Evil
@@ -49,41 +57,10 @@
 
 ;;; Mail
 ;;
-(after! notmcuh
-(setq sendmail-program "/usr/bin/msmtp"
-      send-mail-function 'smtpmail-send-it
-      message-sendmail-f-is-evil t
-      message-sendmail-extra-arguments '("--read-envelope-from")
-      message-send-mail-function 'message-send-mail-with-sendmail))
+  ;; use imagemagick, if available
+  (when (fboundp 'imagemagick-register-types)
+    (imagemagick-register-types))
 
-;; Obsolete?==
-(after! mu4e
-  (setq mu4e-maildir "~/.mail"
-        mu4e-drafts-folder "/Gmail/[Gmail].Drafts"
-        mu4e-sent-folder "/Gmail/[Gmail].Sent Mail"
-        mu4e-trash-folder "/Gmail/[Gmail].Trash"
-        mu4e-refile-folder "/[Gmail].All"
-        mu4e-use-fancy-chars t
-        mu4e-change-filenames-when-moving t ;; http://pragmaticemacs.com/emacs/fixing-duplicate-uid-errors-when-using-mbsync-and-mu4e/
-        )
-
-        (require 'org-mu4e)
-        ;; I want HTML in my mail
-        (setq org-mu4e-convert-to-html t)
-
-  ;; That sweet, sweet spell checking.
-  (add-hook 'mu4e-compose-mode-hook 'flyspell-mode))
-
-;; (require 'smtpmail)
-
-;; (setq message-send-mail-function 'smtpmail-send-it
-;;       starttls-use-gnutls t
-;;       smtpmail-starttls-credentials
-;;       '(("smtp.gmail.com" 587 nil nil))
-;;       smtpmail-default-smtp-server "smtp.gmail.com"
-;;       smtpmail-smtp-server "smtp.gmail.com"
-;;       smtpmail-smtp-service 587
-;;       smtpmail-debug-info t))
 
 ;; Completion
 (use-package-hook! company-lsp
@@ -94,8 +71,8 @@
 
 (after! lsp-pwsh
   (setq pwsh-output (generate-new-buffer "pwsh-output"))
-  ; this only works when 'output' is added to lsp-pwsh client notification handler.
-  ;:notification-handlers (lsp-ht ("powerShell/executionStatusChanged" 'ignore)
+                                        ; this only works when 'output' is added to lsp-pwsh client notification handler.
+                                        ;:notification-handlers (lsp-ht ("powerShell/executionStatusChanged" 'ignore)
   ;;                              ("output" 'ubf-lsp-pwsh-output))
   (defun ubf-send-lsp-region (start end)
     (interactive "r")
@@ -111,31 +88,30 @@
     (with-current-buffer "pwsh-output"
       (insert out)))
 
-(defun ubf-send-lsp-line ()
-  (interactive)
-  (let* ((begin (line-beginning-position))
-        (end (line-end-position))
-        (buffstring (with-current-buffer (current-buffer)
-                      (buffer-substring-no-properties begin end))))
-          (lsp-send-request-async
-           (lsp-make-request "evaluate"
-                             (list :expression buffstring))
-           '(lambda (nilresult)
-              (message "Executed eval")))))
+  (defun ubf-send-lsp-line ()
+    (interactive)
+    (let* ((begin (line-beginning-position))
+           (end (line-end-position))
+           (buffstring (with-current-buffer (current-buffer)
+                         (buffer-substring-no-properties begin end))))
+      (lsp-send-request-async
+       (lsp-make-request "evaluate"
+                         (list :expression buffstring))
+       '(lambda (nilresult)
+          (message "Executed eval")))))
 
-(defun ubf-send-lsp-buffer ()
-  (interactive)
-  (let* ((begin (point-min))
-        (end (point-max))
-        (buffstring (with-current-buffer (current-buffer)
-                      (buffer-substring-no-properties begin end))))
-          (lsp-send-request-async
-           (lsp-make-request "evaluate"
-                             (list :expression buffstring))
-           '(lambda (nilresult)
-              (message "Executed eval")))))
-
-)
+  (defun ubf-send-lsp-buffer ()
+    (interactive)
+    (let* ((begin (point-min))
+           (end (point-max))
+           (buffstring (with-current-buffer (current-buffer)
+                         (buffer-substring-no-properties begin end))))
+      (lsp-send-request-async
+       (lsp-make-request "evaluate"
+                         (list :expression buffstring))
+       '(lambda (nilresult)
+          (message "Executed eval")))))
+  )
 
 (after! org
   (setq +org-babel-mode-alist
@@ -190,9 +166,9 @@
 
 
 (after! ace-window
-(custom-set-faces
- '(aw-leading-char-face
-   ((t (:inherit ace-jump-face-foreground :height 3.0))))))
+  (custom-set-faces
+   '(aw-leading-char-face
+     ((t (:inherit ace-jump-face-foreground :height 3.0))))))
 
 (map! :m "M-j" #'multi-next-line
       :m "M-k" #'multi-previous-line
@@ -228,8 +204,8 @@
         "t" #'find-in-dotfiles
         "T" #'browse-dotfiles)
 
-	  :leader "j1" #'(lambda () (interactive) (ubf|suround-word "'"))
-	  :leader "j2" #'(lambda () (interactive) (ubf|suround-word "\""))
-	  :leader 	 "j3" #'(lambda () (interactive) (ubf|suround-word "(" ")"))
-	  :leader 	 "j4" #'(lambda () (interactive) (ubf|suround-word "[" "]"))
-)
+	    :leader "j1" #'(lambda () (interactive) (ubf|suround-word "'"))
+	    :leader "j2" #'(lambda () (interactive) (ubf|suround-word "\""))
+	    :leader 	 "j3" #'(lambda () (interactive) (ubf|suround-word "(" ")"))
+	    :leader 	 "j4" #'(lambda () (interactive) (ubf|suround-word "[" "]"))
+      )

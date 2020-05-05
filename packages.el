@@ -7,3 +7,5 @@
 ;; (package! builtin-package :disable t)
 (package! ess)
 (package! org-journal)
+(package! shrface :recipe (:host github :repo "chenyanming/shrface"))
+(package! easy-hugo)
