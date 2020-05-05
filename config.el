@@ -1,11 +1,11 @@
 ;;; ~/.doom.d/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here
- (if (eq system-type 'windows-nt)
-     ;; Shims from 'scoop
-     (setq ubf-scoop-dir (concat "C:/Users/" user-login-name "/scoop/"))
-     (add-to-list 'exec-path ubf-scoop-dir)
-)
+;; (if (eq system-type 'windows-nt)
+ ;;    ;; Shims from 'scoop
+;;     (setq ubf-scoop-dir (concat "C:/Users/" user-login-name "/scoop/"))
+;;     (add-to-list 'exec-path ubf-scoop-dir)
+;; )
 
 (setq user-full-name "Ulrik Bruun Farmen"
       user-mail-address "ulrik.bruun.farmen@gmail.net"
@@ -38,32 +38,52 @@
   (setq evil-want-Y-yank-to-eol t)
   t)
 
+(use-package! org-journal
+  :custom
+  (org-journal-dir "/mnt/c/Users/ulrik/Dropbox/Org/Journal/")
+  (org-journal-date-format "%A, %d %B %Y"))
+
 (after! evil-escape
   (setq evil-escape-key-sequence "fd"))
 
-;;
+
 ;;; Mail
+;;
+(after! notmcuh
+(setq sendmail-program "/usr/bin/msmtp"
+      send-mail-function 'smtpmail-send-it
+      message-sendmail-f-is-evil t
+      message-sendmail-extra-arguments '("--read-envelope-from")
+      message-send-mail-function 'message-send-mail-with-sendmail))
+
+;; Obsolete?==
 (after! mu4e
-  (setq +mu4e-backend 'offlineimap)
-  (setq mu4e-maildir "~/Maildir"
+  (setq mu4e-maildir "~/.mail"
         mu4e-drafts-folder "/Gmail/[Gmail].Drafts"
         mu4e-sent-folder "/Gmail/[Gmail].Sent Mail"
         mu4e-trash-folder "/Gmail/[Gmail].Trash"
-        mu4e-refile-folder "/[Gmail].All")
+        mu4e-refile-folder "/[Gmail].All"
+        mu4e-use-fancy-chars t
+        mu4e-change-filenames-when-moving t ;; http://pragmaticemacs.com/emacs/fixing-duplicate-uid-errors-when-using-mbsync-and-mu4e/
+        )
+
+        (require 'org-mu4e)
+        ;; I want HTML in my mail
+        (setq org-mu4e-convert-to-html t)
 
   ;; That sweet, sweet spell checking.
-  (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
+  (add-hook 'mu4e-compose-mode-hook 'flyspell-mode))
 
-(require 'smtpmail)
+;; (require 'smtpmail)
 
-(setq message-send-mail-function 'smtpmail-send-it
-      starttls-use-gnutls t
-      smtpmail-starttls-credentials
-      '(("smtp.gmail.com" 587 nil nil))
-      smtpmail-default-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-service 587
-      smtpmail-debug-info t))
+;; (setq message-send-mail-function 'smtpmail-send-it
+;;       starttls-use-gnutls t
+;;       smtpmail-starttls-credentials
+;;       '(("smtp.gmail.com" 587 nil nil))
+;;       smtpmail-default-smtp-server "smtp.gmail.com"
+;;       smtpmail-smtp-server "smtp.gmail.com"
+;;       smtpmail-smtp-service 587
+;;       smtpmail-debug-info t))
 
 ;; Completion
 (use-package-hook! company-lsp
@@ -212,4 +232,4 @@
 	  :leader "j2" #'(lambda () (interactive) (ubf|suround-word "\""))
 	  :leader 	 "j3" #'(lambda () (interactive) (ubf|suround-word "(" ")"))
 	  :leader 	 "j4" #'(lambda () (interactive) (ubf|suround-word "[" "]"))
-      )
+)
