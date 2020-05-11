@@ -1,4 +1,6 @@
 ;;; lang/org/ob-powershell/package.el -*- lexical-binding: t; -*-
-
-
-(package! ob-powershell :built-in t)
+;;; ;;
+;;; Don't forget to use :files to include files in an unconventional project structure:
+(package! ob-powershell
+  :recipe (:local-repo "~/Dropbox/ob-powershell"
+           :files ("*.el")))

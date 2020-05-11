@@ -3,52 +3,33 @@
 ;; Place your private configuration here
 
 (setq user-full-name "Ulrik Bruun Farmen"
-      user-mail-address "ulrik.bruun.farmen@gmail.net"
-
-      ;; lsp-ui-sideline is redundant with eldoc and much more invasive, so
-      ;; disable it by default.
-      lsp-ui-sideline-enable nil)
-
-;;
-;; Blogging
-(setq easy-hugo-basedir "~/Dropbox/hugo")
-
+      user-mail-address "ulrik.bruun.farmen@gmail.net")
 
 ;;; Fonts
 (setq doom-font (font-spec :family "Fira Code" :size 16)
-      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 16))
+      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 16)
+      doom-modeline-height 25)
 
-;; How tall the mode-line should be. It's only respected in GUI.
-;; If the actual char height is larger, it respects the actual height.
-(setq doom-modeline-height 25)
+;;; :lang org
+(setq org-journal-date-format "%A, %d %B %Y")
 
-;;
-;;; Loads
-(add-to-list 'load-path (expand-file-name "lisp" doom-private-dir))
-(add-to-list 'load-path (expand-file-name "lisp/mu4e" doom-private-dir))
+(if (string-equal system-name "ulrikf-KPL-W0X")
+    (setq org-journal-dir "~/Dropbox/Org/Journal/")
+  (setq org-journal-dir "/mnt/c/Users/ulrik/Dropbox/Org/Journal/"))
 
+; company-backends
 (after! company
   (set-company-backend! 'emacs-lisp-mode
     'company-files))
 
-                                        ; company-backends
+;; Blogging
+(setq easy-hugo-basedir "~/Dropbox/hugo")
 
-
-;; IRC
-(after! circe
-  (setq rcirc-authinfo '(("localhost" "Ulrik" bitlbee "Glenn123#")))
-  )
-
-;;
 ;; Evil
 (use-package-hook! evil
   :pre-init
   (setq evil-want-Y-yank-to-eol t)
   t)
-
-;;; :lang org
-(setq org-journal-dir "/mnt/c/Users/ulrik/Dropbox/Org/Journal/"
-      org-journal-date-format "%A, %d %B %Y")
 
 (after! evil-escape
   (setq evil-escape-key-sequence "fd"))
@@ -161,13 +142,13 @@
    '(aw-leading-char-face
      ((t (:inherit ace-jump-face-foreground :height 3.0))))))
 
+
 (map! :m "M-j" #'multi-next-line
       :m "M-k" #'multi-previous-line
 
       :g "C-s" #'swiper
 
-      (:map term-raw-map
-       "M-k" #'term-send-up
+      (:map term-raw-map "M-k" #'term-send-up
        "M-j" #'term-send-down)
 
       (:map evil-treemacs-state-map

@@ -80,7 +80,7 @@
 
        :lang
        powershell
-       ;;ob-powershell
+       ob-powershell
        data              ; config/data formats
        elixir            ; erlang done right
        emacs-lisp        ; drown in parentheses
