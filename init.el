@@ -49,6 +49,7 @@
        multiple-cursors  ; editing in many places at once
        rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
+       lispy
 
        :emacs
        @functions
@@ -104,6 +105,7 @@
        ;(wanderlust +gmail) ; WIP
 
        :app
+       easy-hugo
        ;;calendar
        ;;irc              ; how neckbeards socialize
        ;;(rss +org)        ; emacs as an RSS reader

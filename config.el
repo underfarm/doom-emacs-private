@@ -1,9 +1,16 @@
+
 ;;; ~/.doom.d/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here
+;;
+(toggle-frame-maximized)
 
 (setq user-full-name "Ulrik Bruun Farmen"
-      user-mail-address "ulrik.bruun.farmen@gmail.net")
+      user-mail-address "ulrik.bruun.farmen@gmail.net"
+
+      doom-scratch-initial-major-mode 'lisp-interaction-mode
+
+      )
 
 ;;; Fonts
 (setq doom-font (font-spec :family "Fira Code" :size 16)
@@ -41,49 +48,49 @@
 	      company-lsp-filter-candidates nil
 	      company-lsp-cache-candidates 'auto))
 
-(after! lsp-pwsh
-  (setq pwsh-output (generate-new-buffer "pwsh-output"))
-                                        ; this only works when 'output' is added to lsp-pwsh client notification handler.
-                                        ;:notification-handlers (lsp-ht ("powerShell/executionStatusChanged" 'ignore)
-  ;;                              ("output" 'ubf-lsp-pwsh-output))
-  (defun ubf-send-lsp-region (start end)
-    (interactive "r")
-    (if (use-region-p)
-        (let ((regionp (buffer-substring start end)))
-          (lsp-send-request-async
-           (lsp-make-request "evaluate"
-                             (list :expression regionp))
-           '(lambda (lspresulthash) "resutlhash")))))
+;; (after! lsp-pwsh
+;;   (setq pwsh-output (generate-new-buffer "pwsh-output"))
+;;                                         ; this only works when 'output' is added to lsp-pwsh client notification handler.
+;;                                         ;:notification-handlers (lsp-ht ("powerShell/executionStatusChanged" 'ignore)
+;;   ;;                              ("output" 'ubf-lsp-pwsh-output))
+;;   (defun ubf-send-lsp-region (start end)
+;;     (interactive "r")
+;;     (if (use-region-p)
+;;         (let ((regionp (buffer-substring start end)))
+;;           (lsp-send-request-async
+;;            (lsp-make-request "evaluate"
+;;                              (list :expression regionp))
+;;            '(lambda (lspresulthash) "resutlhash")))))
 
-  (defun ubf-lsp-pwsh-output (_workspace params)
-    (setq out (gethash "output" params))
-    (with-current-buffer "pwsh-output"
-      (insert out)))
+;;   (defun ubf-lsp-pwsh-output (_workspace params)
+;;     (setq out (gethash "output" params))
+;;     (with-current-buffer "pwsh-output"
+;;       (insert out)))
 
-  (defun ubf-send-lsp-line ()
-    (interactive)
-    (let* ((begin (line-beginning-position))
-           (end (line-end-position))
-           (buffstring (with-current-buffer (current-buffer)
-                         (buffer-substring-no-properties begin end))))
-      (lsp-send-request-async
-       (lsp-make-request "evaluate"
-                         (list :expression buffstring))
-       '(lambda (nilresult)
-          (message "Executed eval")))))
+;;   (defun ubf-send-lsp-line ()
+;;     (interactive)
+;;     (let* ((begin (line-beginning-position))
+;;            (end (line-end-position))
+;;            (buffstring (with-current-buffer (current-buffer)
+;;                          (buffer-substring-no-properties begin end))))
+;;       (lsp-send-request-async
+;;        (lsp-make-request "evaluate"
+;;                          (list :expression buffstring))
+;;        '(lambda (nilresult)
+;;           (message "Executed eval")))))
 
-  (defun ubf-send-lsp-buffer ()
-    (interactive)
-    (let* ((begin (point-min))
-           (end (point-max))
-           (buffstring (with-current-buffer (current-buffer)
-                         (buffer-substring-no-properties begin end))))
-      (lsp-send-request-async
-       (lsp-make-request "evaluate"
-                         (list :expression buffstring))
-       '(lambda (nilresult)
-          (message "Executed eval")))))
-  )
+;;   (defun ubf-send-lsp-buffer ()
+;;     (interactive)
+;;     (let* ((begin (point-min))
+;;            (end (point-max))
+;;            (buffstring (with-current-buffer (current-buffer)
+;;                          (buffer-substring-no-properties begin end))))
+;;       (lsp-send-request-async
+;;        (lsp-make-request "evaluate"
+;;                          (list :expression buffstring))
+;;        '(lambda (nilresult)
+;;           (message "Executed eval")))))
+;;   )
 
 (after! org
   (setq +org-babel-mode-alist
@@ -92,7 +99,7 @@
           (D . C)
           (R . R)
           (sh . shell)
-          (ps . powershell) ;; this one is home brewed.
+          (ps . pwsh) ;; this one is home brewed.
           (bash . shell)))
 
 

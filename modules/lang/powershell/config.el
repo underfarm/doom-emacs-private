@@ -1,6 +1,6 @@
 ;;; lang/powershell/config.el
 
-(use-package! powershell)
+;;(use-package! powershell)
 ;;   :hook (powershell-mode . (lambda ()
  ;;                           (lsp))))
   ;;                            (setq-local company-idle-delay 0.2)
