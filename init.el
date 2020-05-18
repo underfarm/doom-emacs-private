@@ -105,7 +105,7 @@
        ;(wanderlust +gmail) ; WIP
 
        :app
-       easy-hugo
+       hugoel
        ;;calendar
        ;;irc              ; how neckbeards socialize
        ;;(rss +org)        ; emacs as an RSS reader

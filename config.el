@@ -9,7 +9,6 @@
       user-mail-address "ulrik.bruun.farmen@gmail.net"
 
       doom-scratch-initial-major-mode 'lisp-interaction-mode
-
       )
 
 ;;; Fonts
@@ -24,13 +23,16 @@
     (setq org-journal-dir "~/Dropbox/Org/Journal/")
   (setq org-journal-dir "/mnt/c/Users/ulrik/Dropbox/Org/Journal/"))
 
-; company-backends
-(after! company
-  (set-company-backend! 'emacs-lisp-mode
-    'company-files))
 
-;; Blogging
-(setq easy-hugo-basedir "~/Dropbox/hugo")
+(setq +format-on-save-enabled-modes
+      '(not sql-mode     ; sqlformat is currently broken
+            tex-mode         ; latexindent is broken
+            latex-mode))
+
+(after! company
+  (set-company-backend!
+    'emacs-lisp-mode
+    'company-files))
 
 ;; Evil
 (use-package-hook! evil
@@ -100,10 +102,7 @@
           (R . R)
           (sh . shell)
           (ps . pwsh) ;; this one is home brewed.
-          (bash . shell)))
-
-
-  )
+          (bash . shell))))
 
 (add-hook! org-mode
   (visual-line-mode))
@@ -144,46 +143,74 @@
   )
 
 
+
+(after! counsel
+  (map!
+   :g "C-s" #'swiper
+
+   :leader
+   (:prefix "c"
+    "a" #'counsel-ag)))
+
 (after! ace-window
+  (map!
+   :leader "w" #'ace-window)
+
   (custom-set-faces
    '(aw-leading-char-face
      ((t (:inherit ace-jump-face-foreground :height 3.0))))))
 
 
+(after! hugo
+  (setq hugo-posts-directory "content/post"
+        hugo-static-image-path "static/images"
+        hugo-post-extension ".org"
+        hugo-blog-root "~/repos/devlab-2.0")
+
+  (defun ufarmen-find-img-folder ()
+    (if (string-equal system-name "ulrikf-KPL-W0X")
+        (setq org-journal-dir (concat "~/Dropbox/ShareX/Screenshots/" (format-time-string "%Y-%m")))
+      (setq org-journal-dir (concat "/mnt/c/Users/ulrik/Dropbox/ShareX/Screenshots/" (format-time-string "%Y-%m")))))
+
+  (defun hugo-image-to-static-and-insert ()
+    (interactive)
+    (let* ((img-folder (ufarmen-find-img-folder))
+           (hugo-static-path (concat hugo-blog-root "/" hugo-static-image-path))
+           (file (ivy-read "File:" (f-files img-folder))))
+      (f-copy file (concat hugo-static-path "/" (f-filename file))))))
+
+(map! :map hugo-mode-map
+      :m [return] #'hugo-open-at-point
+      :localleader
+      "c" #'hugo-create-thing
+      "?" #'hugo-toggle-command-window
+      "q" #'hugo-status-quit
+      "s" #'hugo-start-stop-server
+      "g" #'hugo-refresh-status
+      "c" #'hugo-create-thing
+      "b" #'build
+      "v" #'hugo-show-server
+      "!" #'hugo-show-process
+      "n" #'hugo-move-to-next-thing
+      "p" #'hugo-move-to-previous-thing
+      "TAB" #'hugo-maybe-toggle-visibility)
+
 (map! :m "M-j" #'multi-next-line
       :m "M-k" #'multi-previous-line
 
-      :g "C-s" #'swiper
-
-      (:map term-raw-map "M-k" #'term-send-up
+      (:map term-raw-map
+       "M-k" #'term-send-up
        "M-j" #'term-send-down)
 
-      (:map evil-treemacs-state-map
-       "C-h" #'evil-window-left
-       "C-l" #'evil-window-right
-       "M-j" #'multi-next-line
-       "M-k" #'multi-previous-line)
-
-      :leader "w" #'ace-window
       :leader "|" #'ubf|eshell-switch
 
       :leader
-      (:prefix "c"
-       "a" #'counsel-ag) :leader
       (:prefix "r"
        "r" #'copy-to-register
        "p" #'insert-register
        "b" #'revert-buffer)
 
-      :leader
-      (:prefix "m"
-       "u" #'mu4e)
-      (:prefix "f"
-       "t" #'find-in-dotfiles
-       "T" #'browse-dotfiles)
-
 	    :leader "j1" #'(lambda () (interactive) (ubf|suround-word "'"))
 	    :leader "j2" #'(lambda () (interactive) (ubf|suround-word "\""))
 	    :leader 	 "j3" #'(lambda () (interactive) (ubf|suround-word "(" ")"))
-	    :leader 	 "j4" #'(lambda () (interactive) (ubf|suround-word "[" "]"))
-      )
+	    :leader 	 "j4" #'(lambda () (interactive) (ubf|suround-word "[" "]")))
