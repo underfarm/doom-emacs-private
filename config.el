@@ -3,6 +3,8 @@
 
 ;; Place your private configuration here
 ;;
+;;
+(require 'f)
 (toggle-frame-maximized)
 
 (setq user-full-name "Ulrik Bruun Farmen"
@@ -17,16 +19,19 @@
       doom-modeline-height 25)
 
 ;;; :lang org
+(setq org-log-done 'time)
 (setq org-journal-date-format "%A, %d %B %Y")
 
 (if (string-equal system-name "ulrikf-KPL-W0X")
-    (setq org-journal-dir "~/Dropbox/Org/Journal/")
-  (setq org-journal-dir "/mnt/c/Users/ulrik/Dropbox/Org/Journal/"))
-
+    (progn
+      (setq org-journal-dir "~/Dropbox/Org/Journal/"
+            org-agenda-files (f-entries "~/DRopbox/Org")))
+  (setq org-journal-dir "/mnt/c/Users/ulrik/Dropbox/Org/Journal/"
+        org-agenda-files (f-entries "/mnt/c/Users/ulrik/Dropbox/Org")))
 
 (setq +format-on-save-enabled-modes
-      '(not sql-mode     ; sqlformat is currently broken
-            tex-mode         ; latexindent is broken
+      '(not sql-mode                    ; sqlformat is currently broken
+            tex-mode                    ; latexindent is broken
             latex-mode))
 
 (after! company

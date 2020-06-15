@@ -80,6 +80,7 @@
        magit             ; a git porcelain for Emacs
 
        :lang
+       ess
        powershell
        ob-powershell
        data              ; config/data formats
@@ -100,9 +101,9 @@
        rest
 
        :email
-       ;(mu4e +gmail)       ; WIP
-       ;notmuch             ; WIP
-       ;(wanderlust +gmail) ; WIP
+                                        ;(mu4e +gmail)       ; WIP
+                                        ;notmuch             ; WIP
+                                        ;(wanderlust +gmail) ; WIP
 
        :app
        hugoel
