@@ -25,7 +25,7 @@
 (if (string-equal system-name "ulrikf-KPL-W0X")
     (progn
       (setq org-journal-dir "~/Dropbox/Org/Journal/"
-            org-agenda-files (f-entries "~/DRopbox/Org")))
+            org-agenda-files (f-entries "~/Dropbox/Org")))
   (setq org-journal-dir "/mnt/c/Users/ulrik/Dropbox/Org/Journal/"
         org-agenda-files (f-entries "/mnt/c/Users/ulrik/Dropbox/Org")))
 
