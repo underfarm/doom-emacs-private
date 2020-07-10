@@ -35,9 +35,8 @@
             latex-mode))
 
 (after! company
-  (set-company-backend!
-    'emacs-lisp-mode
-    'company-files))
+  (set-company-backend! 'emacs-lisp-mode 'company-files)
+  (set-company-backend! 'gdscript-mode 'company-capf 'company-dabbrev))
 
 ;; Evil
 (use-package-hook! evil
