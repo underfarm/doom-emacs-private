@@ -22,7 +22,7 @@
 (setq org-log-done 'time)
 (setq org-journal-date-format "%A, %d %B %Y")
 
-(if (string-equal system-name "ulrikf-KPL-W0X")
+(if (string-equal system-type "windows-nt")
     (progn
       (setq org-journal-dir "~/Dropbox/Org/Journal/"
             org-agenda-files (f-entries "~/Dropbox/Org")))
