@@ -48,11 +48,11 @@
   (setq evil-escape-key-sequence "fd"))
 
 ;; Completion
-(use-package-hook! company-lsp
-  :post-config
-  (setq company-lsp-async t
-	      company-lsp-filter-candidates nil
-	      company-lsp-cache-candidates 'auto))
+;(use-package-hook! company-lsp
+;  :post-config
+;  (setq company-lsp-async t
+;	      company-lsp-filter-candidates nil
+;	      company-lsp-cache-candidates 'auto))
 
 ;; (after! lsp-pwsh
 ;;   (setq pwsh-output (generate-new-buffer "pwsh-output"))

@@ -82,7 +82,7 @@
        :lang
        ;; godot - made by me. There seems to be a proper module for gdscript now, with LSP support.
        plantuml
-       gdscript
+       (gdscript +lsp)
        ess
        powershell
        ob-powershell
@@ -104,9 +104,7 @@
        rest
 
        :email
-                                        ;(mu4e +gmail)       ; WIP
-                                        ;notmuch             ; WIP
-                                        ;(wanderlust +gmail) ; WIP
+
 
        :app
        hugoel
