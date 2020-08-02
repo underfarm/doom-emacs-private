@@ -9,3 +9,4 @@
 (package! org-journal)
 (package! shrface :recipe (:host github :repo "chenyanming/shrface"))
 (package! easy-hugo)
+(package! code-library)

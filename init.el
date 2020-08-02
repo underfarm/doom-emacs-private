@@ -34,10 +34,8 @@
         +all    ; catch all popups that start with an asterix
         +defaults)                   ; default popup rules
        pretty-code                   ; replace bits of code with pretty symbols
-       treemacs                      ; a project drawer, like neotree but cooler
        hydra
        vc-gutter              ; vcs diff in the fringe
-       vi-tilde-fringe        ; fringe tildes to mark beyond EOB
        window-select          ; visually switch windows
        workspaces             ; tab emulation, persistence & separate workspaces
 
@@ -49,26 +47,23 @@
        multiple-cursors          ; editing in many places at once
        rotate-text               ; cycle region at point between text candidates
        snippets                  ; my elves. They type so I don't have to
-       lispy
 
        :emacs
        @functions
-       (dired                           ; making dired pretty [functional]
-        +icons                          ; colorful icons for dired-mode
-        )
+       (dired +icons )
        undo
        electric                   ; smarter, keyword-based electric-indent
        vc                         ; version-control and Emacs, sitting in a tree
 
        :term
        eshell
-       shell
+       ;; shell
        term
 
 
        :checkers
        syntax                        ; tasing you for every semicolon you forget
-       (spell +everywhere)           ; tasing you for misspelling mispelling
+       ;; (spell +everywhere)
        grammar                       ; tasing grammar mistake every you make
 
 
