@@ -10,3 +10,4 @@
 (package! shrface :recipe (:host github :repo "chenyanming/shrface"))
 (package! easy-hugo)
 (package! code-library)
+(package! org-pretty-tags)

@@ -3,6 +3,7 @@
 
 ;;; :lang org
 (after! org
+  (setq org-agenda-files (f-files (expand-file-name "Org" "~/Dropbox/")))
   (setq org-directory (expand-file-name "Org" "~/Dropbox/")
         org-bullets-bullet-list '("› ")
         org-ellipsis "  "
